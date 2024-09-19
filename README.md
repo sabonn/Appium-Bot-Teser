@@ -1,3 +1,5 @@
+currently im working on uploading the AVD files(its a large folder so its a pain in the ass)
+
 # NSO Telegram Bot UI Tester
 
 This project is designed to test Telegram bots through a user interface using an Android emulator.
