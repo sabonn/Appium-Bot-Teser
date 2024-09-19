@@ -1,5 +1,3 @@
-currently im working on uploading the AVD files(its a large folder so its a pain in the ass)
-
 # NSO Telegram Bot UI Tester
 
 This project is designed to test Telegram bots through a user interface using an Android emulator.
@@ -9,6 +7,11 @@ This project is designed to test Telegram bots through a user interface using an
 Welcome to the NSO Telegram Bot UI Tester! This tool allows you to interact with Telegram bots in a simulated environment, enabling thorough testing and development of bot interfaces.
 
 ## Download Instructions
+
+## AVD
+`https://drive.google.com/file/d/1ZC5LlKSZww_QmvTGIh_eCwWYQkFx6xKj/view?usp=sharing`
+this is a link to a google drive for a zip file where the AVD sits, you want to download it that it's inside the project. Otherwise the download scripts might panic.
+If you want to use your own AVD I address what is required from your new AVD in the Running section of the REAMDME.
 
 ### Using the Shell or Batch Scripts
 
