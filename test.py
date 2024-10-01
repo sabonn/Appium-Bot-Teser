@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import base64
 
+
 class TelegramBotTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -32,9 +33,9 @@ class TelegramBotTest(unittest.TestCase):
         cls.find_bot(cls)
 
         # File paths for test files on the local system and in the device
-        file_path = "/Users/itayeshkar/Documents/GitHub/Telegram-Bot-Tester/test files/test.pdf"
+        file_path = "/Users/itayeshkar/Documents/GitHub/Appium-Bot-Teser/test files/test.pdf"
         device_file_path = "/sdcard/Download/testFile.pdf"
-        image_path = "/Users/itayeshkar/Documents/GitHub/Telegram-Bot-Tester/test files/testImage.jpeg"
+        image_path = "/Users/itayeshkar/Documents/GitHub/Appium-Bot-Teser/test files/testImage.jpeg"
         device_image_path = "/sdcard/Download/testImage.jpeg"
 
         # Read files and encode to base64
@@ -92,7 +93,7 @@ class TelegramBotTest(unittest.TestCase):
         # Test file sending and check if the bot responds correctly
         resp = self.get_bot_response()
         if is_image:
-            return "ERROR: WRONG FILE! SEND JPG!" not in resp
+            return 'da6f923ff82391eb7edd31e4fd026b22cec50cb57dd3872befb635a1e86e2243' in resp
         return "ERROR: WRONG FILE! SEND JPG!" in resp
 
     def open_file_manager(self):
@@ -120,6 +121,36 @@ class TelegramBotTest(unittest.TestCase):
             )
         )
         storage.click()
+
+        #moving from the recent files to the downloads folder if not in it
+        try:
+            folder = WebDriverWait(self.driver, 3).until(
+                EC.visibility_of_element_located(
+                    (AppiumBy.XPATH, '//android.widget.TextView[@text="Recent"]')
+                )
+            )
+        except:
+            return
+        
+        menu = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located(
+                (
+                    AppiumBy.XPATH,
+                    '//android.widget.ImageButton[@content-desc="Show roots"]',
+                )
+            )
+        )
+        menu.click()
+
+        downloads = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located(
+                (
+                    AppiumBy.XPATH,
+                    '//android.widget.TextView[@resource-id="android:id/title" and @text="Downloads"]',
+                )
+            )
+        )
+        downloads.click()
 
     def get_files_for_test(self, search_file: str):
         # Open file manager and search for a specific file
@@ -158,14 +189,15 @@ class TelegramBotTest(unittest.TestCase):
     def get_bot_response(self) -> str:
         # Fetch the latest message from the bot
         msg = self.driver.find_elements(AppiumBy.CLASS_NAME, "android.view.ViewGroup")
-        
+
         # Wait until a new message is received
         new_msg = WebDriverWait(self.driver, 3).until(
             lambda driver: driver.find_elements(
                 AppiumBy.CLASS_NAME, "android.view.ViewGroup"
-            )[-1].text != msg
+            )[-1].text
+            != msg
         )
-        
+
         # If a new message exists, return the bot's response
         if new_msg:
             msg = self.driver.find_elements(
@@ -231,6 +263,23 @@ class TelegramBotTest(unittest.TestCase):
         ]
         chat.click()
 
+        #checking if a 'start chat' with the bot exists and if so clicks it
+        start = WebDriverWait(self.driver, 5).until(
+            EC.visibility_of_element_located(
+                (AppiumBy.XPATH, '//android.widget.FrameLayout[@content-desc="Web tabs "]')
+            )
+        )
+
+        if start is not None:
+            start.click()
+
+
 if __name__ == "__main__":
     # Run the test suite
-    unittest.main()
+    suite = unittest.TestSuite()
+    suite.addTest((TelegramBotTest("test_text_message")))
+    suite.addTest((TelegramBotTest("test_send_file")))
+    suite.addTest((TelegramBotTest("test_send_image_file")))
+
+    runner = unittest.TextTestRunner(verbosity=3)
+    runner.run(suite)
