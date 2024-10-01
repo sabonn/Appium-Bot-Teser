@@ -10,8 +10,8 @@ Welcome to the NSO Telegram Bot UI Tester! This tool allows you to interact with
 
 ## AVD
 `https://drive.google.com/file/d/1ZC5LlKSZww_QmvTGIh_eCwWYQkFx6xKj/view?usp=sharing`
-this is a link to a google drive for a zip file where the AVD sits, you want to download it that it's inside the project. Otherwise the download scripts might panic.
-If you want to use your own AVD I address what is required from your new AVD in the Running section of the REAMDME.
+this is a link to a Google Drive for a zip file where the AVD sits, you want to download it that it's inside the project. Otherwise, the download scripts might panic.
+If you want to use your own AVD I address what is required from your new AVD in the Running section of the README.
 
 ### Using the Shell or Batch Scripts
 
@@ -38,7 +38,7 @@ export ANDROID_HOME="$HOME/Library/Android/Sdk"
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
 ```
 
-This is another reason why we recommand installing Android Studio which is up next.
+This is another reason why we recommend installing Android Studio which is up next.
 
 ## Recommended Tools
 
@@ -59,8 +59,7 @@ While manual placement is possible, we strongly recommend using Android Studio f
 
 ## Running
 
-Before running, make sure that the emulator is up via `emulator -avd NSO` and open up Telegram and make sure that there are not pop-up notifications. That may ruin the testing.
-Also if you are using a different Telegram user then mine, search for my bot(NnnSssOoobot and press start).
+Before running, make sure that the emulator is up via `emulator -avd NSO`(or whatever name you gave your emulator) open up Telegram, and make sure that there are no pop-up notifications. That may ruin the testing, and panic the code.
 
 Use these commands in order.
 ```
@@ -68,12 +67,12 @@ python3.11 bot.py
 appium
 python3.11 test.py
 ```
-Make sure that every command has started/is running fine before starting the next one.
+Ensure that every command has started/is running fine before starting the next one(to ensure that all of them are running simultaneously, use different instances of the terminal to execute them).
 
 ## Conclusion
 
-Follow these instructions to set up your environment for the NSO Telegram Bot UI Tester. If you need further assistance or encounter any issues, please consult the project's documentation or seek help from the community.
+Follow these instructions to set up your environment for the NSO Telegram Bot UI Tester. If you need any more help or encounter any issues, please consult the project's documentation or seek help from the community.
 
 ## Dockerfile
 
-I didn't write a Dockerfile because I want this to be as autonomous as it could, meaning AVD's, and each docker image that had an Android OS created a bunch of problems I didn't want the user to experience
+I didn't write a Dockerfile because I wanted this to be as autonomous as it could, meaning AVDs, and each docker image that had an Android OS created a bunch of problems I didn't want the user to experience
