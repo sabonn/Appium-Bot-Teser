@@ -264,14 +264,15 @@ class TelegramBotTest(unittest.TestCase):
         chat.click()
 
         #checking if a 'start chat' with the bot exists and if so clicks it
-        start = WebDriverWait(self.driver, 5).until(
-            EC.visibility_of_element_located(
-                (AppiumBy.XPATH, '//android.widget.FrameLayout[@content-desc="Web tabs "]')
+        try:
+            start = WebDriverWait(self.driver, 3).until(
+                EC.visibility_of_element_located(
+                    (AppiumBy.XPATH, '//android.widget.FrameLayout[@content-desc="Web tabs "]')
+                )
             )
-        )
-
-        if start is not None:
-            start.click()
+        except:
+            return
+        start.click()
 
 
 if __name__ == "__main__":
