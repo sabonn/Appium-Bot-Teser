@@ -64,10 +64,7 @@ class TelegramBotTest(unittest.TestCase):
     def setUp(self):
         # Open the text bar (Web tabs) where interactions with the bot will occur
         try:
-            bar = self.driver.find_element(
-                AppiumBy.XPATH,
-                '//android.widget.FrameLayout[@content-desc="Web tabs "]',
-            )
+            bar = WebDriverWait(self.driver,5, EC.visibility_of_element_located((AppiumBy.XPATH,'//android.widget.FrameLayout[@content-desc="Web tabs "]',)))
             bar.click()
         except:
             pass
@@ -124,11 +121,7 @@ class TelegramBotTest(unittest.TestCase):
 
         #moving from the recent files to the downloads folder if not in it
         try:
-            folder = WebDriverWait(self.driver, 3).until(
-                EC.visibility_of_element_located(
-                    (AppiumBy.XPATH, '//android.widget.TextView[@text="Recent"]')
-                )
-            )
+            folder = self.driver.find_element(AppiumBy.XPATH, '//android.widget.TextView[@text="Recent"]')
         except:
             return
         
@@ -191,20 +184,19 @@ class TelegramBotTest(unittest.TestCase):
         msg = self.driver.find_elements(AppiumBy.CLASS_NAME, "android.view.ViewGroup")
 
         # Wait until a new message is received
-        new_msg = WebDriverWait(self.driver, 3).until(
-            lambda driver: driver.find_elements(
-                AppiumBy.CLASS_NAME, "android.view.ViewGroup"
-            )[-1].text
-            != msg
-        )
-
+        try:
+            new_msg = WebDriverWait(self.driver, 5).until(
+                lambda driver: 'Received' in driver.find_elements(
+                    AppiumBy.CLASS_NAME, "android.view.ViewGroup"
+                )[-1].text
+            )
+        except:
+            return "FAILD TO GET BOT RESPONCE"
         # If a new message exists, return the bot's response
-        if new_msg:
-            msg = self.driver.find_elements(
-                AppiumBy.CLASS_NAME, "android.view.ViewGroup"
-            )[-1].text
-            return msg
-        return "FAILED TO GET BOT RESPONSE"
+        msg = self.driver.find_elements(
+            AppiumBy.CLASS_NAME, "android.view.ViewGroup"
+        )[-1].text
+        return msg
 
     # Test case to send a text message and check the response
     def test_text_message(self):
@@ -278,9 +270,10 @@ class TelegramBotTest(unittest.TestCase):
 if __name__ == "__main__":
     # Run the test suite
     suite = unittest.TestSuite()
-    suite.addTest((TelegramBotTest("test_text_message")))
+
     suite.addTest((TelegramBotTest("test_send_file")))
     suite.addTest((TelegramBotTest("test_send_image_file")))
+    suite.addTest((TelegramBotTest("test_text_message")))
 
     runner = unittest.TextTestRunner(verbosity=3)
     runner.run(suite)
